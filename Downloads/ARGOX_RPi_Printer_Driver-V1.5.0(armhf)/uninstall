@@ -1,0 +1,51 @@
+#!/bin/bash
+#
+# batch file to setup filter
+#
+
+################################################################################
+#
+# echo informations
+#
+
+echo
+echo "    Warning...!"
+echo "    <Argox Printer Driver> uninstall"
+echo
+
+################################################################################
+#
+# echo informations
+#
+echo "    remove files......"
+
+rm -rf /usr/share/cups/model/argox/*.ppd
+rm -rf /usr/share/cups/model/argox/uninstall
+rm -rf /usr/lib/cups/filter/rastertoargox
+
+echo "    restart spooler - CUPS"
+################################################################################
+#
+# restart 
+#
+if test -f /etc/init.d/cups
+then
+  /etc/init.d/cups restart
+else
+  if test -f /etc/init.d/cupsys
+  then
+    /etc/init.d/cupsys restart
+  fi
+fi
+
+################################################################################
+#
+# echo informations
+#
+
+echo "    uninstall driver completed"
+echo
+
+exit 0
+
+

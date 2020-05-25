@@ -1,0 +1,95 @@
+#!/bin/bash
+#
+# batch file to setup
+#
+
+
+################################################################################
+#
+# echo informations
+#
+
+echo
+echo "    start <Argox Printer Driver> install......"
+
+################################################################################
+#
+# check and execute uninstall shell script
+#
+
+if test -f /usr/share/cups/model/argox/uninstall
+then
+  echo "find"
+  echo "    execute uninstall shell script now......"
+  if !(/usr/share/cups/model/argox/uninstall)
+  then
+    echo "    uninstall old <Argox Printer Driver> failed"
+    echo "    install driver failed"
+    echo
+    exit 1
+  fi
+else
+  echo "no find"
+fi
+
+
+################################################################################
+#
+# echo informations
+#
+
+echo "    start copy files......"
+
+################################################################################
+#
+# set own, grp and permissions
+#
+chown -R root:root ./*
+chmod 644  ./ppd/*.ppd
+chmod 755  ./uninstall
+chmod 755  ./rastertoargox
+
+################################################################################
+#
+# make install dir
+#
+mkdir -p /usr/share/cups/model/argox/
+chown -R root:root /usr/share/cups/model/argox/
+chmod -R 755 /usr/share/cups/model/argox/
+
+
+################################################################################
+#
+# copy files
+#
+
+cp ./rastertoargox /usr/lib/cups/filter/
+cp ./ppd/*.ppd /usr/share/cups/model/argox/
+cp ./uninstall /usr/share/cups/model/argox/
+
+
+echo "    restart spooler - CUPS"
+################################################################################
+#
+# restart 
+#
+if test -f /etc/init.d/cups
+then
+  /etc/init.d/cups restart
+else
+  if test -f /etc/init.d/cupsys
+  then
+    /etc/init.d/cupsys restart
+  fi
+fi
+
+################################################################################
+#
+# echo informations
+#
+
+echo "    install driver completed"
+echo
+
+exit 0
+

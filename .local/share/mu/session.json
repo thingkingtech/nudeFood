@@ -1,0 +1,11 @@
+{
+  "theme": "day",
+  "mode": "python",
+  "paths": [
+    "/home/pi/test/test.py"
+  ],
+  "envars": [],
+  "minify": false,
+  "microbit_runtime": "",
+  "zoom_level": 2
+}
