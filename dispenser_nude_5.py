@@ -42,6 +42,8 @@ START = 17
 GPIO.setwarnings(False)
 GPIO.setup(START, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+GPIO.add_event_detect(START, GPIO.FALLING, callback=dispsense())
+
 ##############
 
 buzzer = 4
@@ -218,6 +220,9 @@ def dispense():
     
     dispensed =0
     rands=0
+
+    beepbeep()
+    ledon()
     
     lcd_string("Dispenser Active",LCD_LINE_1,2)
     lcd_string("R"+str(rands),LCD_LINE_2,2)
@@ -325,12 +330,8 @@ def main():
     
     while GPIO.input(START) != GPIO.LOW:
         hx.zero()
+                    ## START pushed                   
         
-    if GPIO.input(START) == GPIO.LOW:                    ## START pushed                   
-        beepbeep()
-        ledon()
-        dispense()
-      
             
 while True:     ## Loop main function ##
     try:
