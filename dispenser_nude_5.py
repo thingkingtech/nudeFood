@@ -42,7 +42,7 @@ START = 17
 GPIO.setwarnings(False)
 GPIO.setup(START, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-GPIO.add_event_detect(START, GPIO.FALLING, callback=dispsense())
+
 
 ##############
 
@@ -315,6 +315,7 @@ def dispense():
 
 # Main code #
 
+GPIO.add_event_detect(START, GPIO.FALLING, callback=dispense())
 
 def main():
     amount = 0
